@@ -218,6 +218,7 @@ public class listagemVIEW extends javax.swing.JFrame {
                     listagem.get(i).getStatus()
                 });
             }
+            this.listaProdutos.setModel(model);
         } catch (Exception e) {
         }
     
