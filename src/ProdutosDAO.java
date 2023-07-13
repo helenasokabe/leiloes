@@ -48,7 +48,48 @@ public class ProdutosDAO {
             prep = conn.prepareStatement(sql);
 
             resultset = prep.executeQuery();
-           
+
+            while (resultset.next()) {
+                ProdutosDTO produto = new ProdutosDTO();
+                produto.setId(resultset.getInt("id"));
+                produto.setNome(resultset.getString("nome"));
+                produto.setValor(resultset.getInt("Valor"));
+                produto.setStatus(resultset.getString("status"));
+                listagem.add(produto);
+            }
+
+            return listagem;
+        } catch (SQLException ex) {
+
+            System.out.println(ex.getErrorCode());
+            return null;
+        }
+
+    }
+
+    void venderProduto(int id) {
+        conn = new conectaDAO().connectDB();
+
+        String sql = "update produtos set status = 'Vendido' where id = ?";
+        try {
+            prep = conn.prepareStatement(sql);
+            prep.setInt(1, id);
+            prep.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println(ex.getErrorCode());
+          
+        }
+    }
+
+    ArrayList<ProdutosDTO> listarProdutosVendidos() {
+        conn = new conectaDAO().connectDB();
+        String sql = "select * from produtos where status = 'Vendido'";
+
+        try {
+            prep = conn.prepareStatement(sql);
+
+            resultset = prep.executeQuery();
+
             while (resultset.next()) {
                 ProdutosDTO produto = new ProdutosDTO();
                 produto.setId(resultset.getInt("id"));
